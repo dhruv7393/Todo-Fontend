@@ -10,8 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^6.0.0",
+    "axios": "^1.8.4",
+    "dotenv": "^16.4.7",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "ux-component": "^1.4.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

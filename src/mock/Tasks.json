@@ -1,0 +1,114 @@
+[
+  {
+    "_id": "EverydayStreak",
+    "label": "Everyday Streak",
+    "type": "checked",
+    "items": ["Task1", "Task2", "Task3"],
+    "checked": ["Task1", "Task2"],
+    "imp": 4,
+    "noDelete": true,
+    "repeatOn": ["Monday"],
+    "reset": true
+  },
+  {
+    "_id": "WeekdayStreak",
+    "label": "Weekday Streak",
+    "type": "steps",
+    "items": ["Task1", "Task2", "Task3"],
+    "checked": 2,
+    "imp": 4,
+    "noDelete": true,
+    "repeatOn": ["Tuesday"],
+    "reset": true
+  },
+
+  {
+    "_id": "Task1later",
+    "label": "Task1later",
+    "type": "steps",
+    "items": ["Task1", "Task2", "Task3"],
+    "checked": 3,
+    "imp": 3,
+    "noDelete": false,
+    "repeatOn": "4/8/2025",
+    "reset": false
+  },
+  {
+    "_id": "Task2later",
+    "label": "Task2later",
+    "type": "steps",
+    "items": ["Task1", "Task2", "Task3"],
+    "checked": 3,
+    "imp": 3,
+    "noDelete": false,
+    "repeatOn": ["Friday"],
+    "reset": false
+  },
+  {
+    "_id": "Task3later",
+    "label": "Task3later",
+    "type": "checked",
+    "items": ["Task1", "Task2", "Task3"],
+    "checked": ["Task1", "Task2", "Task3"],
+    "imp": 4,
+    "noDelete": false,
+    "repeatOn": ["Friday"],
+    "reset": false
+  },
+  {
+    "_id": "Task4later",
+    "label": "Task4later",
+    "type": "checked",
+    "items": ["Task1", "Task2", "Task3"],
+    "checked": ["Task1", "Task2", "Task3"],
+    "imp": 4,
+    "noDelete": false,
+    "repeatOn": "4/8/2025",
+    "reset": false
+  },
+
+  {
+    "_id": "Task1done",
+    "label": "Task1done",
+    "type": "steps",
+    "items": ["Task1", "Task2", "Task3"],
+    "checked": 3,
+    "imp": 3,
+    "noDelete": false,
+    "repeatOn": "4/5/2025",
+    "reset": false
+  },
+  {
+    "_id": "Task2done",
+    "label": "Task2done",
+    "type": "steps",
+    "items": ["Task1", "Task2", "Task3"],
+    "checked": 3,
+    "imp": 3,
+    "noDelete": false,
+    "repeatOn": ["Monday"],
+    "reset": false
+  },
+  {
+    "_id": "Task3done",
+    "label": "Task3done",
+    "type": "checked",
+    "items": ["Task1", "Task2", "Task3"],
+    "checked": ["Task1", "Task2", "Task3"],
+    "imp": 4,
+    "noDelete": false,
+    "repeatOn": ["Monday"],
+    "reset": false
+  },
+  {
+    "_id": "Task4done",
+    "label": "Task4done",
+    "type": "checked",
+    "items": ["Task1", "Task2", "Task3"],
+    "checked": ["Task1", "Task2", "Task3"],
+    "imp": 4,
+    "noDelete": false,
+    "repeatOn": "4/5/2025",
+    "reset": false
+  }
+]
