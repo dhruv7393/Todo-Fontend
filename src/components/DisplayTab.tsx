@@ -31,7 +31,7 @@ const DisplayTab = () => {
       setTaskToBeDisplayed(tasksMock);
     } else {
       axios
-        .get("http://localhost:3001/api/tasks")
+        .get(import.meta.env.VITE_APP_BACKEND_URL + "tasks")
         .then(({ data }) => setTaskToBeDisplayed(data))
         .catch((error) => {
           console.log(error);

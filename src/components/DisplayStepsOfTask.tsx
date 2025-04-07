@@ -14,7 +14,7 @@ const DisplayStepsOfTask = ({
   const handleListClick = async (item: number) => {
     const config = {
       method: "patch",
-      url: "http://localhost:3001/api/tasks/" + task["_id"],
+      url: import.meta.env.VITE_APP_BACKEND_URL + "tasks/" + task["_id"],
       headers: {
         "Content-Type": "application/json",
       },

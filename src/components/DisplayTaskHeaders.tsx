@@ -5,7 +5,7 @@ import { ButtonWithImage } from "ux-component";
 const DisplayTaskHeaders = (noDelete = false, task, handleDelete) => {
   const handleDeleteOFTask = () => {
     axios
-      .delete("http://localhost:3001/api/tasks/" + task["_id"])
+      .delete(import.meta.env.VITE_APP_BACKEND_URL + "tasks/" + task["_id"])
       .then(() => handleDelete(task["_id"]))
       .catch((error) => console.log(error));
   };

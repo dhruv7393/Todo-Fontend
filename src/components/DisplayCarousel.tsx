@@ -25,7 +25,7 @@ const DisplayCarousel = ({ task, handleUpdate }: DisplayCarouselProps) => {
   const handleChangeOfRepition = (value: string | string[]) => {
     const config = {
       method: "patch",
-      url: "http://localhost:3001/api/tasks/" + currentTask["_id"],
+      url: import.meta.env.VITE_APP_BACKEND_URL + "tasks/" + currentTask["_id"],
       headers: {
         "Content-Type": "application/json",
       },

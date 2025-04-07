@@ -89,7 +89,7 @@ const AddNewTask = ({ handleAdding }: AddNewTaskProps) => {
 
     const config = {
       method: "post",
-      url: "http://localhost:3001/api/tasks",
+      url: import.meta.env.VITE_APP_BACKEND_URL + "tasks",
       headers: {
         "Content-Type": "application/json",
       },
