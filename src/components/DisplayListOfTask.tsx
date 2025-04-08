@@ -32,7 +32,7 @@ const DisplayListOfTask = ({ task, handleUpdate }: DisplayListOfTaskProps) => {
     <>
       <CheckboxCreator
         items={task.items}
-        checked={task.checked}
+        checked={typeof task.checked === "number" ? [] : task.checked}
         onChange={(items) => handleListClick(items)}
       />
     </>

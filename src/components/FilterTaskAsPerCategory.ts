@@ -1,11 +1,6 @@
 import { TaskProps } from "./DisplayTab";
 
-interface FilterTaskAsPerCategoryProps {
-  tasks: TaskProps[];
-  tab: string;
-}
-
-const FilterTaskAsPerCategory = (tasks, tab) => {
+const FilterTaskAsPerCategory = (tasks: TaskProps[], tab: string) => {
   const days = [
     "Sunday",
     "Monday",
@@ -23,7 +18,7 @@ const FilterTaskAsPerCategory = (tasks, tab) => {
   const todaysDay = days[new Date().getDay()];
 
   // Filter out tasks based on wether the task needs to be done today, marked for later or is done
-  const filteredOutTask = tasks.filter((task) => {
+  const filteredOutTask = tasks.filter((task: TaskProps) => {
     const { type, items, checked, repeatOn } = task;
     const repeatType = typeof repeatOn === "object" ? "daysOfWeek" : "date";
 
@@ -42,7 +37,8 @@ const FilterTaskAsPerCategory = (tasks, tab) => {
 
     const markForToday =
       !completedTask &&
-      ((repeatType === "date" && new Date(repeatOn) <= todaysDate) ||
+      ((repeatType === "date" &&
+        new Date(typeof repeatOn !== "string" ? "" : repeatOn) <= todaysDate) ||
         repeatOn.includes(todaysDay));
 
     /*
@@ -53,7 +49,8 @@ const FilterTaskAsPerCategory = (tasks, tab) => {
     */
 
     const markForLater =
-      (repeatType === "date" && new Date(repeatOn) > todaysDate) ||
+      (repeatType === "date" &&
+        new Date(typeof repeatOn !== "string" ? "" : repeatOn) > todaysDate) ||
       (completedTask && repeatType === "daysOfWeek") ||
       (!completedTask &&
         repeatType === "daysOfWeek" &&
@@ -66,7 +63,7 @@ const FilterTaskAsPerCategory = (tasks, tab) => {
     const markForDone =
       completedTask &&
       repeatType === "date" &&
-      new Date(repeatOn) <= todaysDate;
+      new Date(typeof repeatOn !== "string" ? "" : repeatOn) <= todaysDate;
 
     switch (tab) {
       case "today":

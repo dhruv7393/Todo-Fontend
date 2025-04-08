@@ -6,6 +6,7 @@ import AddNewTask from "./AddNewTask";
 
 import tasksMock from "../mock/Tasks.json";
 import axios from "axios";
+import { TabCreatorProps } from "ux-component/src/component/TabCreator";
 
 export interface TaskProps {
   _id: string;
@@ -67,7 +68,7 @@ const DisplayTab = () => {
     />
   );
 
-  const items = [
+  const items: TabCreatorProps["items"] = [
     {
       key: "today",
       label: "Today",

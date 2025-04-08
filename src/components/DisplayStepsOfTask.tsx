@@ -11,6 +11,8 @@ const DisplayStepsOfTask = ({
   task,
   handleUpdate,
 }: DisplayStepsOfTaskProps) => {
+  const CurrentChecked: number =
+    typeof task.checked === "object" ? -1 : task.checked;
   const handleListClick = async (item: number) => {
     const config = {
       method: "patch",
@@ -37,7 +39,7 @@ const DisplayStepsOfTask = ({
         items={task.items.map((title: string) => {
           return { title: title };
         })}
-        current={task.checked}
+        current={CurrentChecked}
         onChange={(current) => {
           handleListClick(current);
         }}

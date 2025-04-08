@@ -52,12 +52,16 @@ const DisplayCarousel = ({ task, handleUpdate }: DisplayCarouselProps) => {
     ),
     typeof task.repeatOn === "string" ? (
       <CalendarCreator
-        dateDisplayed={currentTask.repeatOn}
+        dateDisplayed={
+          typeof currentTask.repeatOn === "object" ? "" : currentTask.repeatOn
+        }
         handleDateChange={handleChangeOfRepition}
       />
     ) : (
       <SelectCreator
-        slectedValues={currentTask.repeatOn}
+        slectedValues={
+          typeof currentTask.repeatOn === "object" ? currentTask.repeatOn : []
+        }
         optionValues={daysOfWeek}
         onChange={handleChangeOfRepition}
       />
