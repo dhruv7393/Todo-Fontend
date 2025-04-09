@@ -7,6 +7,7 @@ import AddNewTask from "./AddNewTask";
 import tasksMock from "../mock/Tasks.json";
 import axios from "axios";
 import { TabCreatorProps } from "ux-component/src/component/TabCreator";
+import { openNotificationWithIconProps } from "../App";
 
 export interface TaskProps {
   _id: string;
@@ -22,7 +23,9 @@ export interface TaskProps {
 
 const useLocalMock: boolean = false;
 
-const DisplayTab = () => {
+const DisplayTab = ({
+  openNotificationWithIcon,
+}: openNotificationWithIconProps) => {
   const [tab, setTab] = useState("today");
 
   const [taskToBeDisplayed, setTaskToBeDisplayed] = useState<TaskProps[]>([]);
@@ -33,9 +36,16 @@ const DisplayTab = () => {
     } else {
       axios
         .get(import.meta.env.VITE_APP_BACKEND_URL + "tasks")
-        .then(({ data }) => setTaskToBeDisplayed(data))
-        .catch((error) => {
-          console.log(error);
+        .then(({ data }) => {
+          setTab(() => "today");
+          setTaskToBeDisplayed(() => data);
+        })
+        .catch(() => {
+          openNotificationWithIcon(
+            "error",
+            "ToDo's could not be loaded",
+            "Please refresh the page"
+          );
         });
     }
   };
@@ -57,7 +67,9 @@ const DisplayTab = () => {
     ]);
   };
 
-  const handleAdding = () => getTasksFromApi();
+  const handleAdding = () => {
+    getTasksFromApi();
+  };
 
   const childTab = (
     <DisplayTask
@@ -65,6 +77,7 @@ const DisplayTab = () => {
       tasks={taskToBeDisplayed}
       handleDelete={handleDelete}
       handleUpdate={handleUpdate}
+      openNotificationWithIcon={openNotificationWithIcon}
     />
   );
 
@@ -87,7 +100,12 @@ const DisplayTab = () => {
     {
       key: "add",
       label: <PlusCircleFilled />,
-      children: <AddNewTask handleAdding={handleAdding} />,
+      children: (
+        <AddNewTask
+          handleAdding={handleAdding}
+          openNotificationWithIcon={openNotificationWithIcon}
+        />
+      ),
     },
   ];
   return (

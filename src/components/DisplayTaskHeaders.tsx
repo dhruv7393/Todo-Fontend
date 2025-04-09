@@ -1,28 +1,51 @@
 import { DeleteFilled } from "@ant-design/icons";
 import axios from "axios";
-import { ButtonWithImage } from "ux-component";
+import { ButtonWithImage, ModalCreator } from "ux-component";
 import { TaskProps } from "./DisplayTab";
+import { openNotificationWithIconProps } from "../App";
 
 const DisplayTaskHeaders = (
   noDelete = false,
   task: TaskProps,
-  handleDelete: (id: string) => void
+  handleDelete: (id: string) => void,
+  openNotificationWithIcon: openNotificationWithIconProps["openNotificationWithIcon"]
 ) => {
   const handleDeleteOFTask = () => {
     axios
       .delete(import.meta.env.VITE_APP_BACKEND_URL + "tasks/" + task["_id"])
-      .then(() => handleDelete(task["_id"]))
-      .catch((error) => console.log(error));
+      .then(() => {
+        openNotificationWithIcon(
+          "success",
+          task.label + " has been deleted",
+          ""
+        );
+        handleDelete(task["_id"]);
+      })
+      .catch(() =>
+        openNotificationWithIcon(
+          "error",
+          task.label + " could not be deleted",
+          "Please try again!"
+        )
+      );
   };
   return (
     <>
       {(!noDelete && (
         <>
-          <ButtonWithImage
-            key={task["_id"]}
-            onClick={() => handleDeleteOFTask()}
-            type="default"
-            ImageDisplayed={<DeleteFilled />}
+          <ModalCreator
+            button={
+              <ButtonWithImage
+                key={task["_id"]}
+                onClick={() => {}}
+                type="default"
+                ImageDisplayed={<DeleteFilled />}
+              />
+            }
+            header={"Damm..."}
+            message={<>Do you want to delete {<b>{task.label}</b>} ?</>}
+            onOK={() => handleDeleteOFTask()}
+            onCancel={() => {}}
           />
         </>
       )) || <></>}

@@ -11,12 +11,17 @@ import { CalendarCreatorProps } from "ux-component/src/component/CalendarCreator
 import TextArea from "antd/es/input/TextArea";
 import { SelectCreatorProps } from "ux-component/src/component/SelectCreator";
 import axios from "axios";
+import { openNotificationWithIconProps } from "../App";
 
 interface AddNewTaskProps {
   handleAdding: () => void;
+  openNotificationWithIcon: openNotificationWithIconProps["openNotificationWithIcon"];
 }
 
-const AddNewTask = ({ handleAdding }: AddNewTaskProps) => {
+const AddNewTask = ({
+  handleAdding,
+  openNotificationWithIcon,
+}: AddNewTaskProps) => {
   //For task name
   const [taskName, setTaskName] = useState("");
 
@@ -76,10 +81,14 @@ const AddNewTask = ({ handleAdding }: AddNewTaskProps) => {
   const [resetTask, handleResetTask] = useState(false);
 
   const handleSubmit = () => {
+    const listOfThingsToDo = subTask.split("\n");
+    if (typeOfTask === "steps") {
+      listOfThingsToDo.push("Finish");
+    }
     const valuesToBeSent = {
       label: taskName,
       type: typeOfTask,
-      items: subTask.split("\n"),
+      items: listOfThingsToDo,
       checked: typeOfTask === "checked" ? [] : -1,
       imp: urgent,
       noDelete: !deleteTask,
@@ -98,6 +107,7 @@ const AddNewTask = ({ handleAdding }: AddNewTaskProps) => {
 
     axios(config)
       .then(() => {
+        openNotificationWithIcon("success", taskName + " has been added", "");
         setTaskName(() => "");
         setTypeOfTask(() => "steps");
         setSubTask(() => "");
