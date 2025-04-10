@@ -8,6 +8,7 @@ import tasksMock from "../mock/Tasks.json";
 import axios from "axios";
 import { TabCreatorProps } from "ux-component/src/component/TabCreator";
 import { openNotificationWithIconProps } from "../App";
+import { useLocalMock } from "../utilities/mock";
 
 export interface TaskProps {
   _id: string;
@@ -20,8 +21,6 @@ export interface TaskProps {
   repeatOn: string | string[];
   reset: boolean;
 }
-
-const useLocalMock: boolean = false;
 
 const DisplayTab = ({
   openNotificationWithIcon,

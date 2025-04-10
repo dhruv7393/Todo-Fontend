@@ -1,15 +1,18 @@
 import { StepsCreator } from "ux-component";
 import { TaskProps } from "./DisplayTab";
 import axios from "axios";
+import { openNotificationWithIconProps } from "../App";
 
 interface DisplayStepsOfTaskProps {
   task: TaskProps;
   handleUpdate: (id: string, newTask: TaskProps) => void;
+  openNotificationWithIcon: openNotificationWithIconProps["openNotificationWithIcon"];
 }
 
 const DisplayStepsOfTask = ({
   task,
   handleUpdate,
+  openNotificationWithIcon,
 }: DisplayStepsOfTaskProps) => {
   const CurrentChecked: number =
     typeof task.checked === "object" ? -1 : task.checked;
@@ -26,10 +29,19 @@ const DisplayStepsOfTask = ({
     await axios(config)
       .then(() => {
         const newTask = { ...task, checked: item };
+        openNotificationWithIcon(
+          "success",
+          "Yupi!!!",
+          task.label + "has been updated"
+        );
         handleUpdate(task["_id"], newTask);
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(() => {
+        openNotificationWithIcon(
+          "error",
+          "Damm!!!",
+          task.label + " could not be updated. Please re-try"
+        );
       });
   };
 

@@ -3,15 +3,15 @@ import countValues from "../mock/StreakCount.json";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { openNotificationWithIconProps } from "../App";
+import { useLocalMock } from "../utilities/mock";
 
 const DisplayStreakCount = ({
   openNotificationWithIcon,
 }: openNotificationWithIconProps) => {
-  const useMock = false;
   const [activeDays, setActiveDays] = useState("0");
   const [totalDays, setTotalDays] = useState("0");
   useEffect(() => {
-    if (!useMock) {
+    if (!useLocalMock) {
       const config = {
         method: "get",
         url: import.meta.env.VITE_APP_BACKEND_URL + "streakcount",

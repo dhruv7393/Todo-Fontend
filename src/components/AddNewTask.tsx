@@ -26,7 +26,7 @@ const AddNewTask = ({
   const [taskName, setTaskName] = useState("");
 
   //For urgency
-  const [urgent, setUrgent] = useState(1);
+  const [urgent, setUrgent] = useState(0);
   const describeUrgency = [
     "Take Your Time",
     "A Bit Urgent",
@@ -41,7 +41,7 @@ const AddNewTask = ({
     { value: "steps", text: "List Of Steps" },
   ];
 
-  const [typeOfTask, setTypeOfTask] = useState("steps");
+  const [typeOfTask, setTypeOfTask] = useState("");
 
   const [subTask, setSubTask] = useState("");
 
@@ -51,7 +51,7 @@ const AddNewTask = ({
     { value: "date", text: "Specific Date" },
   ];
 
-  const [repitition, setTRepitition] = useState("date");
+  const [repitition, setTRepitition] = useState("");
 
   const [slectedValues, handleSelectedValues] = useState<string[]>([]);
   const daysOfWeek: SelectCreatorProps["optionValues"] = [
@@ -119,13 +119,17 @@ const AddNewTask = ({
         handleResetTask(() => false);
         handleAdding();
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(() => {
+        openNotificationWithIcon(
+          "error",
+          "Damm..",
+          "Task could not be added, please re-try"
+        );
       });
   };
 
   return (
-    <>
+    <div style={{ paddingLeft: "20px", paddingRight: "20px" }}>
       <Form layout="vertical">
         <Form.Item label="What you want to get done ? ">
           <Input
@@ -134,39 +138,46 @@ const AddNewTask = ({
             onChange={(e) => setTaskName(e.target.value)}
           />
         </Form.Item>
+        {(taskName.length && (
+          <Form.Item>
+            <span style={{ marginRight: 20 }}>How urgent is it ? </span>
+            <RatingCreator
+              names={describeUrgency}
+              value={urgent}
+              setValue={(val) => setUrgent(val)}
+            />
+          </Form.Item>
+        )) || <></>}
 
-        <Form.Item>
-          <span style={{ marginRight: 20 }}>How urgent is it ? </span>
-          <RatingCreator
-            names={describeUrgency}
-            value={urgent}
-            setValue={(val) => setUrgent(val)}
-          />
-        </Form.Item>
+        {(urgent > 0 && (
+          <Form.Item label="What are the kind of following steps ">
+            <ButtonGroupsCreator
+              values={valuesOfTaskType}
+              currentValue={typeOfTask}
+              onChange={(e) => setTypeOfTask(e.target.value)}
+            />
+          </Form.Item>
+        )) || <></>}
 
-        <Form.Item label="What are the kind of following steps ">
-          <ButtonGroupsCreator
-            values={valuesOfTaskType}
-            currentValue={typeOfTask}
-            onChange={(e) => setTypeOfTask(e.target.value)}
-          />
-        </Form.Item>
+        {(typeOfTask && (
+          <Form.Item label="List Of Subtasks / Steps :">
+            <TextArea
+              rows={4}
+              value={subTask}
+              onChange={(e) => setSubTask(e.target.value)}
+            />
+          </Form.Item>
+        )) || <></>}
 
-        <Form.Item label="TextArea">
-          <TextArea
-            rows={4}
-            value={subTask}
-            onChange={(e) => setSubTask(e.target.value)}
-          />
-        </Form.Item>
-
-        <Form.Item label="Frequency Of Repetition">
-          <ButtonGroupsCreator
-            values={valuesOfRepitition}
-            currentValue={repitition}
-            onChange={(e) => setTRepitition(e.target.value)}
-          />
-        </Form.Item>
+        {(subTask && (
+          <Form.Item label="Frequency Of Repetition">
+            <ButtonGroupsCreator
+              values={valuesOfRepitition}
+              currentValue={repitition}
+              onChange={(e) => setTRepitition(e.target.value)}
+            />
+          </Form.Item>
+        )) || <></>}
 
         {(repitition === "days" && (
           <Form.Item label="Days on which you would do? ">
@@ -203,20 +214,22 @@ const AddNewTask = ({
           />
         </Form.Item>
 
-        <Form.Item
-          wrapperCol={{ offset: 8, span: 16 }}
-          style={{ paddingBottom: "30px" }}
-        >
+        <div style={{ paddingBottom: "50px" }}>
           <Button
             type="primary"
             htmlType="submit"
             onClick={() => handleSubmit()}
+            style={{
+              display: "block",
+              margin: "auto",
+            }}
+            disabled={repitition.length < 1}
           >
             Submit
           </Button>
-        </Form.Item>
+        </div>
       </Form>
-    </>
+    </div>
   );
 };
 

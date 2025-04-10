@@ -1,13 +1,19 @@
 import { CheckboxCreator } from "ux-component";
 import { TaskProps } from "./DisplayTab";
 import axios from "axios";
+import { openNotificationWithIconProps } from "../App";
 
 interface DisplayListOfTaskProps {
   task: TaskProps;
   handleUpdate: (id: string, newTask: TaskProps) => void;
+  openNotificationWithIcon: openNotificationWithIconProps["openNotificationWithIcon"];
 }
 
-const DisplayListOfTask = ({ task, handleUpdate }: DisplayListOfTaskProps) => {
+const DisplayListOfTask = ({
+  task,
+  handleUpdate,
+  openNotificationWithIcon,
+}: DisplayListOfTaskProps) => {
   const handleListClick = (items: string[]) => {
     const config = {
       method: "patch",
@@ -21,10 +27,19 @@ const DisplayListOfTask = ({ task, handleUpdate }: DisplayListOfTaskProps) => {
     axios(config)
       .then(() => {
         const newTask = { ...task, checked: items };
+        openNotificationWithIcon(
+          "success",
+          "Yupi!!!",
+          task.label + "has been updated"
+        );
         handleUpdate(task["_id"], newTask);
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(() => {
+        openNotificationWithIcon(
+          "error",
+          "Damm!!!",
+          task.label + " could not be updated. Please re-try"
+        );
       });
   };
 

@@ -11,6 +11,7 @@ import { TaskProps } from "./DisplayTab";
 import axios from "axios";
 import { Button } from "antd";
 import { openNotificationWithIconProps } from "../App";
+import DisplayImpAndReset from "./DisplayImpAndReset";
 
 interface DisplayCarouselProps {
   task: TaskProps;
@@ -96,7 +97,7 @@ const DisplayCarousel = ({
         }
         onOK={() => updateValueOnSubmit()}
         onCancel={() => {
-          setTempValue(() => task.repeatOn);
+          //setTempValue(() => task.repeatOn);
         }}
       />
     );
@@ -104,9 +105,17 @@ const DisplayCarousel = ({
 
   const elements = [
     task.type === "checked" ? (
-      <DisplayListOfTask task={currentTask} handleUpdate={handleUpdate} />
+      <DisplayListOfTask
+        task={currentTask}
+        handleUpdate={handleUpdate}
+        openNotificationWithIcon={openNotificationWithIcon}
+      />
     ) : (
-      <DisplayStepsOfTask task={currentTask} handleUpdate={handleUpdate} />
+      <DisplayStepsOfTask
+        task={currentTask}
+        handleUpdate={handleUpdate}
+        openNotificationWithIcon={openNotificationWithIcon}
+      />
     ),
     typeof task.repeatOn === "string" ? (
       <>
@@ -130,6 +139,11 @@ const DisplayCarousel = ({
         {ModalCreatorComponent("days")}
       </>
     ),
+    <DisplayImpAndReset
+      task={task}
+      handleUpdate={handleUpdate}
+      openNotificationWithIcon={openNotificationWithIcon}
+    />,
   ];
   return <CarouselCreator elements={elements} onChange={() => {}} />;
 };
