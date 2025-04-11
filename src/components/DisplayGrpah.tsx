@@ -52,13 +52,13 @@ const DisplayGrpah = () => {
   const stepsToSuccess: string[] = [
     "Techie",
     "FIRE",
-    "Project Independence",
+    "Project Happy",
     "Read To Grow",
     "6 Pack Abs",
     "Goon",
     "Thank You",
-    "Introspection",
-    "Bolya Shree Hari Re",
+    "Introspect",
+    "Hu To Ayvo",
   ];
 
   const successGauge: GaugeCreatorProps["progesses"] = stepsToSuccess.map(
