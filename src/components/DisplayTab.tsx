@@ -1,7 +1,7 @@
 import { TabCreator } from "ux-component";
 import DisplayTask from "./DisplayTask";
 import { useEffect, useState } from "react";
-import { PlusCircleFilled } from "@ant-design/icons";
+import { PlusCircleFilled, StockOutlined } from "@ant-design/icons";
 import AddNewTask from "./AddNewTask";
 
 import tasksMock from "../mock/Tasks.json";
@@ -9,6 +9,7 @@ import axios from "axios";
 import { TabCreatorProps } from "ux-component/src/component/TabCreator";
 import { openNotificationWithIconProps } from "../App";
 import { useLocalMock } from "../utilities/mock";
+import DisplayGrpah from "./DisplayGrpah";
 
 export interface TaskProps {
   _id: string;
@@ -105,6 +106,11 @@ const DisplayTab = ({
           openNotificationWithIcon={openNotificationWithIcon}
         />
       ),
+    },
+    {
+      key: "progess",
+      label: <StockOutlined />,
+      children: <DisplayGrpah />,
     },
   ];
   return (

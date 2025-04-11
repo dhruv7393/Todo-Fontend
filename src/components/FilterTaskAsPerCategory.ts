@@ -7,7 +7,7 @@ const FilterTaskAsPerCategory = (tasks: TaskProps[], tab: string) => {
     "Tuesday",
     "Wednesday",
     "Thursday",
-    "Fiday",
+    "Friday",
     "Saturday",
   ];
 
