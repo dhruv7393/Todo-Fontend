@@ -1,54 +1,18 @@
-import { StarOutlined } from "@ant-design/icons";
-import { Divider } from "antd";
-import { GaugeCreator } from "ux-component";
-import { GaugeCreatorProps } from "ux-component/src/component/GaugeCreator";
+import { StarFilled } from "@ant-design/icons";
+import { Col, Divider, Row } from "antd";
+import { GaugeCreator, StatisticCreator } from "ux-component";
 
-const DisplayGrpah = () => {
-  const processes: GaugeCreatorProps["progesses"] = [
-    {
-      title: "70 of 100 pending",
-      percent: 30,
-      size: 80,
-      format: (
-        <>
-          4 <StarOutlined />
-        </>
-      ),
-    },
-    {
-      title: "70 of 100 pending",
-      percent: 30,
-      size: 80,
-      format: (
-        <>
-          3 <StarOutlined />
-        </>
-      ),
-    },
+export interface starsCompleted {
+  done: number;
+  total: number;
+  urgency: number;
+}
 
-    {
-      title: "70 of 100 pending",
-      percent: 30,
-      size: 80,
-      format: (
-        <>
-          2 <StarOutlined />
-        </>
-      ),
-    },
+export interface DisplayGrpahProps {
+  starStatistics: starsCompleted[];
+}
 
-    {
-      title: "70 of 100 pending",
-      percent: 30,
-      size: 80,
-      format: (
-        <>
-          1 <StarOutlined />
-        </>
-      ),
-    },
-  ];
-
+const DisplayGrpah = ({ starStatistics }: DisplayGrpahProps) => {
   const stepsToSuccess: string[] = [
     "Techie",
     "FIRE",
@@ -61,22 +25,48 @@ const DisplayGrpah = () => {
     "Hu To Ayvo",
   ];
 
-  const successGauge: GaugeCreatorProps["progesses"] = stepsToSuccess.map(
-    (success) => {
-      return {
-        title: "70 of 100 pending",
-        percent: 30,
-        size: 100,
-        format: <>{success}</>,
-      };
-    }
-  );
+  const processingStarData = () => {
+    return starStatistics
+      .filter((star) => star.total > 0)
+      .map((starData) => {
+        const { done, total, urgency } = starData;
+        return {
+          title: total - done + " of " + total + " pending",
+          percent: (done * 100) / total,
+          size: 80,
+          format: (
+            <>
+              {urgency} <StarFilled style={{ color: "#fadb14" }} />
+            </>
+          ),
+        };
+      });
+  };
+
+  const startDataToBeShown = processingStarData();
 
   return (
     <>
-      <GaugeCreator progesses={processes} showGrid={true} colspan={6} />
+      <GaugeCreator progesses={startDataToBeShown} />
       <Divider />
-      <GaugeCreator progesses={successGauge} />
+      <Row>
+        {(stepsToSuccess.length &&
+          stepsToSuccess.map((success) => {
+            return (
+              <Col span={12}>
+                <div
+                  style={{
+                    border: "1px solid rgba(0, 0, 0, 0.45)",
+                    margin: "10px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <StatisticCreator title={success} value="-30" />
+                </div>
+              </Col>
+            );
+          })) || <></>}
+      </Row>
     </>
   );
 };

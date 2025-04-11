@@ -9,6 +9,7 @@ import axios from "axios";
 import { TabCreatorProps } from "ux-component/src/component/TabCreator";
 import { openNotificationWithIconProps } from "../App";
 import { useLocalMock } from "../utilities/mock";
+import CountTotalStartsData from "../utilities/CountTotalStartsData";
 import DisplayGrpah from "./DisplayGrpah";
 
 export interface TaskProps {
@@ -110,7 +111,11 @@ const DisplayTab = ({
     {
       key: "progess",
       label: <StockOutlined />,
-      children: <DisplayGrpah />,
+      children: (
+        <DisplayGrpah
+          starStatistics={CountTotalStartsData(taskToBeDisplayed)}
+        />
+      ),
     },
   ];
   return (
