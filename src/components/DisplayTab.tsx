@@ -84,6 +84,15 @@ const DisplayTab = ({
 
   const items: TabCreatorProps["items"] = [
     {
+      key: "progess",
+      label: <StockOutlined />,
+      children: (
+        <DisplayGrpah
+          starStatistics={CountTotalStartsData(taskToBeDisplayed)}
+        />
+      ),
+    },
+    {
       key: "today",
       label: "Today",
       children: childTab,
@@ -108,15 +117,6 @@ const DisplayTab = ({
         />
       ),
     },
-    {
-      key: "progess",
-      label: <StockOutlined />,
-      children: (
-        <DisplayGrpah
-          starStatistics={CountTotalStartsData(taskToBeDisplayed)}
-        />
-      ),
-    },
   ];
   return (
     <>
@@ -124,6 +124,7 @@ const DisplayTab = ({
         items={items}
         onChange={(key) => setTab(key)}
         centered={true}
+        defaultValue="today"
       />
     </>
   );
