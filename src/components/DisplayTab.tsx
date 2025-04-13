@@ -12,6 +12,9 @@ import { useLocalMock } from "../utilities/mock";
 import CountTotalStartsData from "../utilities/CountTotalStartsData";
 import DisplayGrpah from "./DisplayGrpah";
 
+import countValues from "../mock/StreakCount.json";
+import DisplayStreakCount from "./DisplayStreakCount";
+
 export interface TaskProps {
   _id: string;
   label: string;
@@ -28,6 +31,22 @@ const DisplayTab = ({
   openNotificationWithIcon,
 }: openNotificationWithIconProps) => {
   const [tab, setTab] = useState("today");
+
+  const [activeDays, setActiveDays] = useState("0");
+  const [totalDays, setTotalDays] = useState("0");
+  const [weekDays, setWeekDays] = useState("0");
+
+  const [sincerity, setSincerity] = useState({
+    Goon: 0,
+    "6 Pack Abs": 0,
+    FIRE: 0,
+    "Hu To Ayvo": 0,
+    Introspection: 0,
+    "Project Happy": 0,
+    "Read To Grow": 0,
+    Techie: 0,
+    "Thank You": 1,
+  });
 
   const [taskToBeDisplayed, setTaskToBeDisplayed] = useState<TaskProps[]>([]);
 
@@ -51,8 +70,39 @@ const DisplayTab = ({
     }
   };
 
+  const streakCountFromApi = () => {
+    if (!useLocalMock) {
+      const config = {
+        method: "get",
+        url: import.meta.env.VITE_APP_BACKEND_URL + "streakcount",
+        headers: {},
+      };
+      axios(config)
+        .then(({ data }) => {
+          //axios
+          setActiveDays(() => data[0].activeDays);
+          setTotalDays(() => data[0].totalDays);
+          setWeekDays(() => data[0].weekDays);
+          setSincerity((sincerely) => {
+            return { ...sincerely, ...data[0].sincerity };
+          });
+        })
+        .catch(() => {
+          openNotificationWithIcon(
+            "error",
+            "Streak data could not be loaded",
+            "Please refresh the page"
+          );
+        });
+    } else {
+      setActiveDays(() => countValues.activeDays);
+      setTotalDays(() => countValues.totalDays);
+    }
+  };
+
   useEffect(() => {
     getTasksFromApi();
+    streakCountFromApi();
   }, []);
 
   const handleDelete = (id: string) => {
@@ -89,6 +139,9 @@ const DisplayTab = ({
       children: (
         <DisplayGrpah
           starStatistics={CountTotalStartsData(taskToBeDisplayed)}
+          activeDays={parseInt(activeDays)}
+          weekDays={parseInt(weekDays)}
+          sincerity={sincerity}
         />
       ),
     },
@@ -120,6 +173,7 @@ const DisplayTab = ({
   ];
   return (
     <>
+      <DisplayStreakCount activeDays={activeDays} totalDays={totalDays} />
       <TabCreator
         items={items}
         onChange={(key) => setTab(key)}

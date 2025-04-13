@@ -1,5 +1,4 @@
 import "./App.css";
-import DisplayStreakCount from "./components/DisplayStreakCount";
 import DisplayTab from "./components/DisplayTab";
 import { notification } from "antd";
 
@@ -29,7 +28,6 @@ function App() {
   return (
     <>
       {contextHolder}
-      <DisplayStreakCount openNotificationWithIcon={openNotificationWithIcon} />
       <DisplayTab openNotificationWithIcon={openNotificationWithIcon} />
     </>
   );
