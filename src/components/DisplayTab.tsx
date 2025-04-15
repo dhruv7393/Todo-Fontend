@@ -33,7 +33,6 @@ const DisplayTab = ({
   const [tab, setTab] = useState("today");
 
   const [activeDays, setActiveDays] = useState("0");
-  const [totalDays, setTotalDays] = useState("0");
   const [weekDays, setWeekDays] = useState("0");
 
   const [sincerity, setSincerity] = useState({
@@ -81,7 +80,6 @@ const DisplayTab = ({
         .then(({ data }) => {
           //axios
           setActiveDays(() => data[0].activeDays);
-          setTotalDays(() => data[0].totalDays);
           setWeekDays(() => data[0].weekDays);
           setSincerity((sincerely) => {
             return { ...sincerely, ...data[0].sincerity };
@@ -96,7 +94,6 @@ const DisplayTab = ({
         });
     } else {
       setActiveDays(() => countValues.activeDays);
-      setTotalDays(() => countValues.totalDays);
     }
   };
 
@@ -173,7 +170,10 @@ const DisplayTab = ({
   ];
   return (
     <>
-      <DisplayStreakCount activeDays={activeDays} totalDays={totalDays} />
+      <DisplayStreakCount
+        weekDays={weekDays.toString()}
+        activeDays={activeDays.toString()}
+      />
       <TabCreator
         items={items}
         onChange={(key) => setTab(key)}

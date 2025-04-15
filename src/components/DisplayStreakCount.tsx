@@ -1,17 +1,17 @@
 import { StatisticCreator } from "ux-component";
 
 interface DisplayStreakCountProps {
+  weekDays: string;
   activeDays: string;
-  totalDays: string;
 }
 
 const DisplayStreakCount = ({
+  weekDays,
   activeDays,
-  totalDays,
 }: DisplayStreakCountProps) => {
   return (
     <>
-      <StatisticCreator title="Streak Days" value={activeDays} of={totalDays} />
+      <StatisticCreator title="Streak Days" value={weekDays} of={activeDays} />
     </>
   );
 };
