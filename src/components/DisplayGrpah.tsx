@@ -1,6 +1,9 @@
-import { StarFilled } from "@ant-design/icons";
+import { PlusCircleFilled, StarFilled } from "@ant-design/icons";
 import { Col, Divider, Row } from "antd";
-import { GaugeCreator, StatisticCreator } from "ux-component";
+import axios from "axios";
+import { useState } from "react";
+import { ButtonWithImage, GaugeCreator, StatisticCreator } from "ux-component";
+import { openNotificationWithIconProps } from "../App";
 
 export interface starsCompleted {
   done: number;
@@ -25,18 +28,46 @@ export interface DisplayGrpahProps {
   activeDays: number;
   weekDays: number;
   sincerity: sincerityProp;
+  openNotificationWithIcon: openNotificationWithIconProps["openNotificationWithIcon"];
 }
 
 const DisplayGrpah = ({
   starStatistics,
   activeDays,
   weekDays,
-  sincerity,
+  sincerity: sincerityFromAPI,
+  openNotificationWithIcon,
 }: DisplayGrpahProps) => {
+  const [sincerity, updateSincerity] = useState(sincerityFromAPI);
+
+  const updateSincerityCount = (taskName: string) => {
+    const config = {
+      method: "post",
+      url: import.meta.env.VITE_APP_BACKEND_URL + "streakcount/" + taskName,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    axios(config)
+      .then(({ data }) => {
+        openNotificationWithIcon("success", taskName + " has been updated", "");
+        updateSincerity((task) => {
+          return { ...task, ...data[0].sincerity };
+        });
+      })
+      .catch(() => {
+        openNotificationWithIcon(
+          "error",
+          "Damm..",
+          "Task could not be updated"
+        );
+      });
+  };
   const nityaSuccess: string[] = [
     "Goon",
     "Thank You",
     "Introspection",
+    "Dhun",
     "Hu To Ayvo",
   ];
   const weekDaySuccess: string[] = [
@@ -110,7 +141,10 @@ const DisplayGrpah = ({
                     style={{
                       border: "1px solid rgba(0, 0, 0, 0.45)",
                       margin: "10px",
+                      paddingBottom: "10px",
                       borderRadius: "10px",
+                      display: "flex",
+                      flexDirection: "column",
                     }}
                   >
                     <StatisticCreator
@@ -118,6 +152,19 @@ const DisplayGrpah = ({
                       value={success.value}
                       of={success.of}
                     />
+
+                    <div style={{ margin: "auto", display: "block" }}>
+                      <ButtonWithImage
+                        key={success.title}
+                        onClick={() => {
+                          updateSincerityCount(success.title);
+                        }}
+                        type={"text"}
+                        ImageDisplayed={
+                          <PlusCircleFilled style={{ color: "#ff7a45" }} />
+                        }
+                      />
+                    </div>
                   </div>
                 </Col>
               );

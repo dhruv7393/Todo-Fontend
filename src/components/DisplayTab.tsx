@@ -139,6 +139,7 @@ const DisplayTab = ({
           activeDays={parseInt(activeDays)}
           weekDays={parseInt(weekDays)}
           sincerity={sincerity}
+          openNotificationWithIcon={openNotificationWithIcon}
         />
       ),
     },
