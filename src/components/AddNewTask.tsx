@@ -89,7 +89,7 @@ const AddNewTask = ({
       label: taskName,
       type: typeOfTask,
       items: listOfThingsToDo,
-      checked: typeOfTask === "checked" ? [] : -1,
+      checked: typeOfTask === "checked" ? [] : 0,
       imp: urgent,
       noDelete: !deleteTask,
       repeatOn: repitition === "date" ? dateDisplayed : slectedValues,
