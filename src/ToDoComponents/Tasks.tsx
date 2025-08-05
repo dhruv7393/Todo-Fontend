@@ -9,7 +9,7 @@ import CopyTask from "./CopyTask";
 import EditTask from "./EditTask";
 import DeleteTask from "./DeleteTask";
 import axios from "axios";
-import { useMock } from "./TaskUtil";
+import { endpoint, useMock } from "./TaskUtil";
 
 interface Task {
   _id: string;
@@ -151,7 +151,7 @@ const Tasks = () => {
         setAllTasks(updatedTasks);
       } else {
         axios
-          .patch(`${import.meta.env.VITE_APP_BACKEND_URL}/${task._id}`, {
+          .patch(`${endpoint}/${task._id}`, {
             ...task,
             isDone: newStatus,
           })
@@ -421,7 +421,7 @@ const Tasks = () => {
       setAllTasks(MockTasks as Task[]);
     } else {
       axios
-        .get(import.meta.env.VITE_APP_BACKEND_URL)
+        .get(`${endpoint}`)
         .then((response) => {
           setAllTasks(response.data);
         })

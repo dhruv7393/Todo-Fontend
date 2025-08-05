@@ -18,7 +18,7 @@ import {
   Switch,
 } from "@mui/material";
 import type { Task } from "./TaskTypes";
-import { renderTaskHierarchy, useMock } from "./TaskUtil";
+import { endpoint, renderTaskHierarchy, useMock } from "./TaskUtil";
 import axios from "axios";
 
 // (Task type imported from TaskTypes)
@@ -383,10 +383,7 @@ const EditTask = ({ open, onClose, onEditTask, tasks }: EditTaskProps) => {
       onEditTask(editedTask, parentPath);
     } else {
       axios
-        .patch(
-          `${import.meta.env.VITE_APP_BACKEND_URL}/${editedTask._id}`,
-          editedTask
-        )
+        .patch(`${endpoint}/${editedTask._id}`, editedTask)
         .then((response) => {
           console.log("Edit - Task updated:", response.data);
           onEditTask(editedTask, parentPath);

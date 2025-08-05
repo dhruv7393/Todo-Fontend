@@ -13,7 +13,7 @@ import {
   Typography,
   Alert,
 } from "@mui/material";
-import { useMock } from "./TaskUtil";
+import { endpoint, useMock } from "./TaskUtil";
 import axios from "axios";
 
 interface Task {
@@ -142,7 +142,7 @@ const DeleteTask = ({
       handleClose();
     } else {
       axios
-        .delete(`${import.meta.env.VITE_APP_BACKEND_URL}/${selectedTask._id}`)
+        .delete(`${endpoint}/${selectedTask._id}`)
         .then(() => {
           console.log("Delete - Task deleted successfully");
           onDeleteTask(selectedTask, editedParentTasks);

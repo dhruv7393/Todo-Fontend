@@ -17,7 +17,7 @@ import {
   FormControlLabel,
   Switch,
 } from "@mui/material";
-import { useMock } from "./TaskUtil";
+import { endpoint, useMock } from "./TaskUtil";
 import axios from "axios";
 
 interface Task {
@@ -328,7 +328,7 @@ const CopyTask = ({ open, onClose, onCopyTask, tasks }: CopyTaskProps) => {
       console.log("New task:", newTask);
     } else {
       axios
-        .post(`${import.meta.env.VITE_APP_BACKEND_URL}`, newTask)
+        .post(`${endpoint}`, newTask)
         .then((response) => {
           console.log("Task added successfully:", response.data);
           console.log("Copy List - Task copied:", copyList);

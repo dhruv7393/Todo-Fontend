@@ -73,4 +73,4 @@ export function renderTaskHierarchy(
 }
 
 export const useMock = false;
-export const endpoint = "http://localhost:3001/api/vaccation";
+export const endpoint = import.meta.env.VITE_APP_BACKEND_URL + "vaccation/";
