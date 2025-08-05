@@ -1,0 +1,13 @@
+Tasks - 
+
+    taskName
+    isDone
+    carryyOutOn - date / day of week /  after certain days / specific date of every month
+    dateOfCarryOut
+    canBeReseted
+    listOfSubTasks
+
+currentParent
+nestUnder
+copySubTasksOf
+    

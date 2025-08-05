@@ -1,29 +1,13 @@
-.level4 .ant-collapse-header {
-  background-color: #ff7a45;
+.parchment {
+  padding: 4em;
+  box-shadow: 2px 3px 20px black, 0 0 60px #8a4d0f inset;
+  background: #fffef0;
+  filter: url(#wavy2);
+  font-family: "Comic Sans MS", "Bradley Hand ITC", cursive;
 }
 
-.level3 .ant-collapse-header {
-  background-color: #faad14;
-}
-
-.level2 .ant-collapse-header {
-  background-color: #ffbb96;
-}
-
-.level1 .ant-collapse-header {
-  background-color: #237804;
-}
-
-ul.slick-dots li {
-  background-color: black;
-}
-
-ul.slick-dots li.slick-active {
-  background: blue !important;
-}
-
-:where(.css-dev-only-do-not-override-tjsggz).ant-carousel
-  .slick-dots
-  li::after {
-  background: blue !important;
+.taskHeaders {
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  text-align: left;
 }

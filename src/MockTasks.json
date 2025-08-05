@@ -1,0 +1,380 @@
+[
+  {
+    "_id": "1",
+    "taskName": "Morning Workout",
+    "isDone": true,
+    "carryOutOn": "Monday, Wednesday, Friday",
+    "dateOfCarryOut": "2025-08-01",
+    "canBeReseted": true,
+    "listOfSubTasks": ["2", "5", "6"]
+  },
+  {
+    "_id": "2",
+    "taskName": "Warm up exercises",
+    "isDone": true,
+    "carryOutOn": "Monday, Wednesday, Friday",
+    "dateOfCarryOut": "2025-08-01",
+    "canBeReseted": true,
+    "listOfSubTasks": ["3"]
+  },
+  {
+    "_id": "3",
+    "taskName": "Warm up exercises1",
+    "isDone": true,
+    "carryOutOn": "Monday, Wednesday, Friday",
+    "dateOfCarryOut": "2025-08-01",
+    "canBeReseted": true,
+    "listOfSubTasks": ["4"]
+  },
+  {
+    "_id": "4",
+    "taskName": "Warm up exercises2",
+    "isDone": true,
+    "carryOutOn": "Monday, Wednesday, Friday",
+    "dateOfCarryOut": "2025-08-01",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "5",
+    "taskName": "Cardio session",
+    "isDone": true,
+    "carryOutOn": "Monday, Wednesday, Friday",
+    "dateOfCarryOut": "2025-08-01",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "6",
+    "taskName": "Cool down stretches",
+    "isDone": false,
+    "carryOutOn": "Monday, Wednesday, Friday",
+    "dateOfCarryOut": "2025-08-01",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "7",
+    "taskName": "Weekly Team Meeting",
+    "isDone": false,
+    "carryOutOn": "Thursday",
+    "dateOfCarryOut": "2025-07-31",
+    "canBeReseted": false,
+    "listOfSubTasks": ["8", "9", "10"]
+  },
+  {
+    "_id": "8",
+    "taskName": "Prepare agenda",
+    "isDone": true,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-07-30",
+    "canBeReseted": false,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "9",
+    "taskName": "Review last week's action items",
+    "isDone": false,
+    "carryOutOn": "Thursday",
+    "dateOfCarryOut": "2025-07-31",
+    "canBeReseted": false,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "10",
+    "taskName": "Send meeting notes",
+    "isDone": false,
+    "carryOutOn": "Thursday",
+    "dateOfCarryOut": "2025-07-31",
+    "canBeReseted": false,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "11",
+    "taskName": "Grocery Shopping",
+    "isDone": false,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-08-03",
+    "canBeReseted": true,
+    "listOfSubTasks": ["12", "13", "16"]
+  },
+  {
+    "_id": "12",
+    "taskName": "Make shopping list",
+    "isDone": true,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-08-02",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "13",
+    "taskName": "Buy vegetables",
+    "isDone": false,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-08-03",
+    "canBeReseted": true,
+    "listOfSubTasks": ["14", "15"]
+  },
+  {
+    "_id": "14",
+    "taskName": "Buy tomatoes",
+    "isDone": false,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-08-03",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "15",
+    "taskName": "Buy onions",
+    "isDone": false,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-08-03",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "16",
+    "taskName": "Buy dairy products",
+    "isDone": false,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-07-03",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "17",
+    "taskName": "Monthly Budget Review",
+    "isDone": false,
+    "carryOutOn": "monthly1",
+    "dateOfCarryOut": "2025-08-01",
+    "canBeReseted": true,
+    "listOfSubTasks": ["18", "19", "20"]
+  },
+  {
+    "_id": "18",
+    "taskName": "Review expenses",
+    "isDone": false,
+    "carryOutOn": "monthly1",
+    "dateOfCarryOut": "2025-08-01",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "19",
+    "taskName": "Update savings goals",
+    "isDone": false,
+    "carryOutOn": "monthly1",
+    "dateOfCarryOut": "2025-08-01",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "20",
+    "taskName": "Plan next month's budget",
+    "isDone": false,
+    "carryOutOn": "monthly1",
+    "dateOfCarryOut": "2025-08-01",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "21",
+    "taskName": "Read Technical Article",
+    "isDone": true,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-07-25",
+    "canBeReseted": false,
+    "listOfSubTasks": ["22", "23", "24"]
+  },
+  {
+    "_id": "22",
+    "taskName": "Find interesting article",
+    "isDone": true,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-07-24",
+    "canBeReseted": false,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "23",
+    "taskName": "Take notes while reading",
+    "isDone": true,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-07-25",
+    "canBeReseted": false,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "24",
+    "taskName": "Share insights with team",
+    "isDone": false,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-07-26",
+    "canBeReseted": false,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "25",
+    "taskName": "Call Mom",
+    "isDone": false,
+    "carryOutOn": "Sunday",
+    "dateOfCarryOut": "2025-08-03",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "26",
+    "taskName": "Project Deadline Preparation",
+    "isDone": false,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-08-15",
+    "canBeReseted": false,
+    "listOfSubTasks": ["27", "30", "31"]
+  },
+  {
+    "_id": "27",
+    "taskName": "Complete code review",
+    "isDone": false,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-08-10",
+    "canBeReseted": false,
+    "listOfSubTasks": ["28", "29"]
+  },
+  {
+    "_id": "28",
+    "taskName": "Review frontend code",
+    "isDone": false,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-08-08",
+    "canBeReseted": false,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "29",
+    "taskName": "Review backend code",
+    "isDone": false,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-08-09",
+    "canBeReseted": false,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "30",
+    "taskName": "Write documentation",
+    "isDone": false,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-08-12",
+    "canBeReseted": false,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "31",
+    "taskName": "Final testing",
+    "isDone": false,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-08-14",
+    "canBeReseted": false,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "32",
+    "taskName": "Water Plants",
+    "isDone": true,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-08-02",
+    "canBeReseted": true,
+    "listOfSubTasks": ["33", "34"]
+  },
+  {
+    "_id": "33",
+    "taskName": "Water living room plants",
+    "isDone": true,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-08-02",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "34",
+    "taskName": "Water bedroom plants",
+    "isDone": true,
+    "carryOutOn": "date",
+    "dateOfCarryOut": "2025-08-02",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "35",
+    "taskName": "Pay Bills",
+    "isDone": false,
+    "carryOutOn": "monthly15",
+    "dateOfCarryOut": "2025-08-15",
+    "canBeReseted": true,
+    "listOfSubTasks": ["36", "37", "38"]
+  },
+  {
+    "_id": "36",
+    "taskName": "Pay electricity bill",
+    "isDone": false,
+    "carryOutOn": "monthly15",
+    "dateOfCarryOut": "2025-08-15",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "37",
+    "taskName": "Pay internet bill",
+    "isDone": false,
+    "carryOutOn": "monthly15",
+    "dateOfCarryOut": "2025-08-15",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "38",
+    "taskName": "Pay rent",
+    "isDone": false,
+    "carryOutOn": "monthly15",
+    "dateOfCarryOut": "2025-08-15",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "39",
+    "taskName": "Learn Spanish",
+    "isDone": false,
+    "carryOutOn": "Tuesday, Thursday",
+    "dateOfCarryOut": "2025-08-05",
+    "canBeReseted": true,
+    "listOfSubTasks": ["40", "41", "42"]
+  },
+  {
+    "_id": "40",
+    "taskName": "Practice vocabulary",
+    "isDone": false,
+    "carryOutOn": "Tuesday, Thursday",
+    "dateOfCarryOut": "2025-08-05",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "41",
+    "taskName": "Complete grammar exercises",
+    "isDone": false,
+    "carryOutOn": "Tuesday, Thursday",
+    "dateOfCarryOut": "2025-08-05",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  },
+  {
+    "_id": "42",
+    "taskName": "Listen to Spanish podcast",
+    "isDone": false,
+    "carryOutOn": "Tuesday, Thursday",
+    "dateOfCarryOut": "2025-08-05",
+    "canBeReseted": true,
+    "listOfSubTasks": []
+  }
+]
