@@ -2,6 +2,23 @@
   font-family: "Comic Sans MS", "Bradley Hand ITC", cursive !important;
 }
 
+*,
+*:before,
+*:after {
+  font-family: "Comic Sans MS", "Bradley Hand ITC", cursive !important;
+}
+
+.MuiTypography-root,
+.MuiButton-root,
+.MuiInputBase-root,
+.MuiInputLabel-root,
+.MuiFormLabel-root,
+.MuiOutlinedInput-root,
+.MuiListItemText-primary,
+.MuiListItemText-secondary {
+  font-family: "Comic Sans MS", "Bradley Hand ITC", cursive !important;
+}
+
 h2,
 .MuiRichTreeView-itemLabel {
   font-family: "Comic Sans MS", "Bradley Hand ITC", cursive !important;

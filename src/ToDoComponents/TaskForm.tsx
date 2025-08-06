@@ -79,8 +79,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
     | null
   >(null);
 
-  console.log("Current Task:", currentTask);
-
   useEffect(() => {
     if (!open) {
       setCurrentTask({ ...emptyTask });
