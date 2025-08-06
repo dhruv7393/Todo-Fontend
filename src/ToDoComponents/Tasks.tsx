@@ -4,12 +4,71 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import EditDocumentIcon from "@mui/icons-material/EditDocument";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddTask from "./AddTask";
-import CopyTask from "./CopyTask";
-import EditTask from "./EditTask";
-import DeleteTask from "./DeleteTask";
 import axios from "axios";
 import { endpoint, useMock } from "./TaskUtil";
+import { MenuItem } from "@mui/material";
+import TaskForm from "./TaskForm";
+
+export const renderTaskHierarchy = (
+  taskList: Task[],
+  level = 0,
+  parentPath: number[] = []
+): React.ReactElement[] => {
+  // Create a task map for quick lookup
+  const taskMap = taskList.reduce((map, task) => {
+    map[task._id] = task;
+    return map;
+  }, {} as Record<string, Task>);
+
+  // Get top-level tasks (tasks that are not referenced as subtasks)
+  const allSubTaskIds = new Set<string>();
+  taskList.forEach((task) => {
+    task.listOfSubTasks.forEach((subTaskId) => {
+      allSubTaskIds.add(subTaskId);
+    });
+  });
+
+  const topLevelTasks = taskList.filter((task) => !allSubTaskIds.has(task._id));
+
+  const renderTasksRecursive = (
+    currentTasks: Task[],
+    currentLevel: number,
+    currentPath: number[]
+  ): React.ReactElement[] => {
+    const elements: React.ReactElement[] = [];
+
+    currentTasks.forEach((task, index) => {
+      const taskPath = [...currentPath, index];
+      const pathString = taskPath.join("-");
+
+      // Add the current task as a menu item
+      elements.push(
+        <MenuItem
+          key={pathString}
+          value={pathString}
+          style={{ paddingLeft: currentLevel * 20 + 16 }}
+        >
+          {"  ".repeat(currentLevel)}→ {task.taskName}
+        </MenuItem>
+      );
+
+      // Add all subtasks
+      if (task.listOfSubTasks.length > 0) {
+        const subTasks = task.listOfSubTasks
+          .map((id) => taskMap[id])
+          .filter(Boolean);
+
+        elements.push(
+          ...renderTasksRecursive(subTasks, currentLevel + 1, taskPath)
+        );
+      }
+    });
+
+    return elements;
+  };
+
+  return renderTasksRecursive(topLevelTasks, level, parentPath);
+};
 
 interface Task {
   _id: string;
@@ -47,56 +106,6 @@ const Tasks = () => {
 
     return tasks.filter((task) => !allSubTaskIds.has(task._id));
   }, []);
-
-  // Get subtasks by their IDs
-  const getSubTasks = useCallback(
-    (subTaskIds: string[], taskMap: Record<string, Task>) => {
-      return subTaskIds.map((id) => taskMap[id]).filter(Boolean);
-    },
-    []
-  );
-
-  // Get selected task by path (similar to EditTask component)
-  const getSelectedTaskByPath = useCallback(
-    (path: string, taskList: Task[]) => {
-      if (!path) return null;
-
-      const pathIndices = path.split("-").map(Number);
-      const taskMap = taskList.reduce((map, task) => {
-        map[task._id] = task;
-        return map;
-      }, {} as Record<string, Task>);
-
-      // Get top-level tasks
-      const allSubTaskIds = new Set<string>();
-      taskList.forEach((task) => {
-        task.listOfSubTasks.forEach((subTaskId) => {
-          allSubTaskIds.add(subTaskId);
-        });
-      });
-
-      const topLevelTasks = taskList.filter(
-        (task) => !allSubTaskIds.has(task._id)
-      );
-
-      let selectedTask = topLevelTasks[pathIndices[0]];
-      if (!selectedTask) return null;
-
-      for (let i = 1; i < pathIndices.length; i++) {
-        const subTasks = selectedTask.listOfSubTasks
-          .map((id) => taskMap[id])
-          .filter(Boolean);
-
-        if (pathIndices[i] >= subTasks.length) return null;
-        selectedTask = subTasks[pathIndices[i]];
-        if (!selectedTask) return null;
-      }
-
-      return selectedTask;
-    },
-    []
-  );
-
   // Sort tasks recursively
   const sortTasks = useCallback((tasks: Task[]): Task[] => {
     return tasks.sort((a, b) => {
@@ -167,211 +176,6 @@ const Tasks = () => {
     [allTasks, createTaskMap, toggleTaskAndSubtasks]
   );
 
-  const handleAddTask = useCallback(
-    (newTask: Omit<Task, "_id">, parentPath?: string) => {
-      // Generate a new ID for the task
-      const maxId = Math.max(...allTasks.map((t) => parseInt(t._id)), 0);
-      const taskWithId: Task = {
-        ...newTask,
-        _id: (maxId + 1).toString(),
-      };
-
-      let updatedTasks: Task[];
-
-      if (!parentPath) {
-        // Add as top-level task
-        updatedTasks = [...allTasks, taskWithId];
-      } else {
-        // Add as subtask - find parent by path and add to its listOfSubTasks
-        const pathIndices = parentPath.split("-").map(Number);
-        const topLevelTasks = getTopLevelTasks(allTasks);
-        const taskMap = createTaskMap(allTasks);
-
-        // Navigate to the parent task using the path
-        let currentTask = topLevelTasks[pathIndices[0]];
-        for (let i = 1; i < pathIndices.length; i++) {
-          const subTasks = getSubTasks(currentTask.listOfSubTasks, taskMap);
-          currentTask = subTasks[pathIndices[i]];
-        }
-
-        // Update the parent task to include the new subtask ID
-        const updatedParent = {
-          ...currentTask,
-          listOfSubTasks: [...currentTask.listOfSubTasks, taskWithId._id],
-        };
-
-        updatedTasks = allTasks.map((task) =>
-          task._id === updatedParent._id ? updatedParent : task
-        );
-        updatedTasks.push(taskWithId);
-      }
-
-      setAllTasks(updatedTasks);
-    },
-    [allTasks, getTopLevelTasks, createTaskMap, getSubTasks]
-  );
-
-  const handleCopyTask = useCallback(
-    (newTask: Omit<Task, "_id">, parentPath?: string) => {
-      // Generate a new ID for the copied task (completely independent)
-      const maxId = Math.max(...allTasks.map((t) => parseInt(t._id)), 0);
-      const copiedTask: Task = {
-        _id: (maxId + 1).toString(),
-        taskName: newTask.taskName,
-        isDone: false, // Always start as not done
-        carryOutOn: newTask.carryOutOn,
-        dateOfCarryOut: newTask.dateOfCarryOut,
-        canBeReseted: newTask.canBeReseted,
-        listOfSubTasks: [], // Always start with empty subtasks
-      };
-
-      let updatedTasks: Task[];
-
-      if (!parentPath) {
-        // Add as top-level task
-        updatedTasks = [...allTasks, copiedTask];
-      } else {
-        // Add as subtask - find parent by path and add to its listOfSubTasks
-        const pathIndices = parentPath.split("-").map(Number);
-        const topLevelTasks = getTopLevelTasks(allTasks);
-        const taskMap = createTaskMap(allTasks);
-
-        // Navigate to the parent task using the path
-        let currentTask = topLevelTasks[pathIndices[0]];
-        for (let i = 1; i < pathIndices.length; i++) {
-          const subTasks = getSubTasks(currentTask.listOfSubTasks, taskMap);
-          currentTask = subTasks[pathIndices[i]];
-        }
-
-        // Update the parent task to include the new subtask ID
-        const updatedParent = {
-          ...currentTask,
-          listOfSubTasks: [...currentTask.listOfSubTasks, copiedTask._id],
-        };
-
-        updatedTasks = allTasks.map((task) =>
-          task._id === updatedParent._id ? updatedParent : task
-        );
-        updatedTasks.push(copiedTask);
-      }
-
-      setAllTasks(updatedTasks);
-    },
-    [allTasks, getTopLevelTasks, createTaskMap, getSubTasks]
-  );
-
-  const handleEditTask = useCallback(
-    (editedTask: Task, parentPath?: string) => {
-      // Update the existing task with the new data
-      let updatedTasks = allTasks.map((task) =>
-        task._id === editedTask._id ? editedTask : task
-      );
-
-      const editedParentTasks: Task[] = [];
-
-      // If parentPath is provided, we need to handle task re-parenting
-      if (parentPath !== undefined) {
-        // Remove the task from its current parent (if any)
-        updatedTasks = updatedTasks.map((task) => {
-          const hadSubtask = task.listOfSubTasks.includes(editedTask._id);
-          const updatedTask = {
-            ...task,
-            listOfSubTasks: task.listOfSubTasks.filter(
-              (id) => id !== editedTask._id
-            ),
-          };
-
-          // Track parent tasks that had their subtasks modified
-          if (hadSubtask) {
-            editedParentTasks.push(updatedTask);
-          }
-
-          return updatedTask;
-        });
-
-        // Add the task to the new parent (if parentPath is not empty)
-        if (parentPath !== "") {
-          const parentTask = getSelectedTaskByPath(parentPath, updatedTasks);
-          if (parentTask) {
-            updatedTasks = updatedTasks.map((task) => {
-              if (task._id === parentTask._id) {
-                const updatedParentTask = {
-                  ...task,
-                  listOfSubTasks: [...task.listOfSubTasks, editedTask._id],
-                };
-
-                // Add or update the new parent in editedParentTasks
-                const existingIndex = editedParentTasks.findIndex(
-                  (t) => t._id === parentTask._id
-                );
-                if (existingIndex >= 0) {
-                  editedParentTasks[existingIndex] = updatedParentTask;
-                } else {
-                  editedParentTasks.push(updatedParentTask);
-                }
-
-                return updatedParentTask;
-              }
-              return task;
-            });
-          }
-        }
-      }
-
-      // Print EditedList only if there were parent task changes
-      if (editedParentTasks.length > 0) {
-        console.log(
-          "Edit - EditedList (parent tasks with updated subtasks):",
-          editedParentTasks
-        );
-      }
-
-      setAllTasks(updatedTasks);
-    },
-    [allTasks, getSelectedTaskByPath]
-  );
-
-  const handleDeleteTask = useCallback(
-    (taskToDelete: Task, editedParentTasks: Task[]) => {
-      // Get all tasks that need to be deleted (including nested subtasks)
-      const getAllSubtasksRecursively = (
-        taskId: string,
-        visited = new Set<string>()
-      ): string[] => {
-        if (visited.has(taskId)) return [];
-        visited.add(taskId);
-
-        const task = allTasks.find((t) => t._id === taskId);
-        if (!task) return [];
-
-        const allSubtasks = [taskId];
-
-        task.listOfSubTasks.forEach((subTaskId) => {
-          allSubtasks.push(...getAllSubtasksRecursively(subTaskId, visited));
-        });
-
-        return allSubtasks;
-      };
-
-      const allTaskIdsToDelete = getAllSubtasksRecursively(taskToDelete._id);
-
-      // Remove all tasks to be deleted
-      let updatedTasks = allTasks.filter(
-        (task) => !allTaskIdsToDelete.includes(task._id)
-      );
-
-      // Update parent tasks to remove deleted task IDs from their subtask lists
-      editedParentTasks.forEach((editedParent) => {
-        updatedTasks = updatedTasks.map((task) =>
-          task._id === editedParent._id ? editedParent : task
-        );
-      });
-
-      setAllTasks(updatedTasks);
-    },
-    [allTasks]
-  );
-
   // Function to check if a task is due today or earlier
   const isTaskDueToday = useCallback((task: Task): boolean => {
     const today = new Date();
@@ -416,18 +220,22 @@ const Tasks = () => {
     [isTaskDueToday]
   );
 
+  const makeAPICall = () => {
+    axios
+      .get(`${endpoint}`)
+      .then((response) => {
+        setAllTasks(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching tasks:", error);
+      });
+  };
+
   useEffect(() => {
     if (useMock) {
       setAllTasks(MockTasks as Task[]);
     } else {
-      axios
-        .get(`${endpoint}`)
-        .then((response) => {
-          setAllTasks(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching tasks:", error);
-        });
+      makeAPICall();
     }
   }, []);
 
@@ -521,29 +329,41 @@ const Tasks = () => {
         </div>
       )}
 
-      <AddTask
+      <TaskForm
         open={isAddTaskOpen}
-        onClose={() => setIsAddTaskOpen(false)}
-        onAddTask={handleAddTask}
+        onClose={() => {
+          makeAPICall();
+          setIsAddTaskOpen(false);
+        }}
+        operation="Add"
         tasks={allTasks}
       />
-      <CopyTask
+      <TaskForm
         open={isCopyTaskOpen}
-        onClose={() => setIsCopyTaskOpen(false)}
-        onCopyTask={handleCopyTask}
+        onClose={() => {
+          makeAPICall();
+          setIsCopyTaskOpen(false);
+        }}
+        operation="Copy"
         tasks={allTasks}
       />
-      <EditTask
+      <TaskForm
         open={isEditTaskOpen}
-        onClose={() => setIsEditTaskOpen(false)}
-        onEditTask={handleEditTask}
+        onClose={() => {
+          makeAPICall();
+          setIsEditTaskOpen(false);
+        }}
+        operation="Update"
         tasks={allTasks}
       />
-      <DeleteTask
+      <TaskForm
         open={isDeleteTaskOpen}
-        onClose={() => setIsDeleteTaskOpen(false)}
-        onDeleteTask={handleDeleteTask}
+        onClose={() => {
+          makeAPICall();
+          setIsDeleteTaskOpen(false);
+        }}
         tasks={allTasks}
+        operation="Delete"
       />
     </div>
   );
@@ -598,10 +418,16 @@ const ShowTask = ({
               }}
             >
               {task.taskName} (
-              {new Date(task.dateOfCarryOut).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-              })}
+              {(() => {
+                const [year, month, day] = task.dateOfCarryOut
+                  .split("-")
+                  .map(Number);
+                const localDate = new Date(year, month - 1, day);
+                return localDate.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                });
+              })()}
               )
             </span>
             <br />
